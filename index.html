@@ -1,0 +1,1892 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MAYOT Resort — Яремче · Карпати</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Jost:wght@200;300;400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cedar: #1A1A17;
+    --cedar-mid: #2A2920;
+    --stone: #7A6A52;
+    --stone-light: #A8957A;
+    --cream: #F0EAE0;
+    --cream-warm: #E8DFD0;
+    --forest: #2E3B2B;
+    --forest-mid: #3D4F39;
+    --gold: #B8902A;
+    --gold-light: #D4AE5C;
+    --mist: #C4B89A;
+    --slate: #5A5A52;
+    --white: #FAF8F4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--cedar);
+    color: var(--cream);
+    font-family: 'Jost', sans-serif;
+    font-weight: 300;
+    overflow-x: hidden;
+    cursor: none;
+  }
+
+  /* Custom cursor */
+  .cursor {
+    width: 8px; height: 8px;
+    background: var(--gold);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+    transition: transform 0.1s ease;
+  }
+  .cursor-ring {
+    width: 36px; height: 36px;
+    border: 1px solid rgba(184,144,42,0.4);
+    border-radius: 50%;
+    position: fixed;
+    pointer-events: none;
+    z-index: 9998;
+    transition: all 0.18s ease;
+  }
+
+  /* NAV */
+  nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 100;
+    padding: 24px 48px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: linear-gradient(to bottom, rgba(26,26,23,0.95), transparent);
+  }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    letter-spacing: 0.25em;
+    color: var(--cream);
+    font-weight: 300;
+  }
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+  .nav-links a {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--mist);
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  .nav-links a:hover { color: var(--gold-light); }
+
+  /* SECTIONS */
+  section { min-height: 100vh; position: relative; }
+
+  /* ═══════════════ HERO ═══════════════ */
+  #hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: var(--cedar);
+  }
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 80% 60% at 50% 110%, rgba(46,59,43,0.6) 0%, transparent 70%),
+      radial-gradient(ellipse 40% 30% at 20% 40%, rgba(184,144,42,0.05) 0%, transparent 50%);
+  }
+
+  /* SVG terrain silhouette */
+  .terrain-svg {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    width: 100%;
+    opacity: 0.35;
+  }
+
+  .hero-content {
+    position: relative;
+    text-align: center;
+    z-index: 2;
+    padding: 0 24px;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 32px;
+    opacity: 0;
+    animation: fadeUp 1s 0.3s forwards;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(72px, 12vw, 160px);
+    font-weight: 300;
+    line-height: 0.9;
+    letter-spacing: -0.02em;
+    color: var(--white);
+    opacity: 0;
+    animation: fadeUp 1.2s 0.5s forwards;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--gold-light);
+  }
+  .hero-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(16px, 2vw, 22px);
+    font-weight: 300;
+    font-style: italic;
+    color: var(--mist);
+    margin-top: 24px;
+    letter-spacing: 0.05em;
+    opacity: 0;
+    animation: fadeUp 1s 0.8s forwards;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 48px;
+    justify-content: center;
+    margin-top: 64px;
+    opacity: 0;
+    animation: fadeUp 1s 1.1s forwards;
+  }
+  .hero-stat {
+    text-align: center;
+  }
+  .hero-stat-n {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 42px;
+    font-weight: 300;
+    color: var(--gold-light);
+    display: block;
+    line-height: 1;
+  }
+  .hero-stat-l {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-top: 6px;
+    display: block;
+  }
+  .hero-divider {
+    width: 1px; height: 60px;
+    background: linear-gradient(to bottom, transparent, var(--stone), transparent);
+    align-self: center;
+  }
+
+  /* scroll indicator */
+  .scroll-hint {
+    position: absolute;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    opacity: 0;
+    animation: fadeIn 1s 2s forwards;
+    z-index: 2;
+  }
+  .scroll-hint span {
+    font-size: 9px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .scroll-line {
+    width: 1px; height: 48px;
+    background: linear-gradient(to bottom, var(--gold), transparent);
+    animation: scrollPulse 2s infinite;
+  }
+
+  /* ═══════════════ IDENTITY STRIP ═══════════════ */
+  .identity-strip {
+    background: var(--cream);
+    color: var(--cedar);
+    padding: 20px 0;
+    overflow: hidden;
+    min-height: auto;
+  }
+  .marquee-track {
+    display: flex;
+    gap: 0;
+    animation: marquee 30s linear infinite;
+    white-space: nowrap;
+  }
+  .marquee-item {
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--stone);
+    padding: 0 32px;
+    border-right: 1px solid rgba(122,106,82,0.3);
+    flex-shrink: 0;
+  }
+  .marquee-dot {
+    color: var(--gold);
+    font-size: 16px;
+    padding: 0 16px;
+    align-self: center;
+    flex-shrink: 0;
+  }
+
+  /* ═══════════════ SITE / TERRAIN ═══════════════ */
+  #site {
+    background: var(--cedar-mid);
+    padding: 120px 48px;
+    min-height: auto;
+    display: block;
+  }
+  .section-label {
+    font-size: 10px;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 48px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+  }
+  .section-label::before {
+    content: '';
+    display: block;
+    width: 40px; height: 1px;
+    background: var(--gold);
+  }
+  .site-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  .site-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 300;
+    line-height: 1.15;
+    color: var(--white);
+    margin-bottom: 32px;
+  }
+  .site-text h2 em { font-style: italic; color: var(--gold-light); }
+  .site-text p {
+    font-size: 15px;
+    line-height: 1.8;
+    color: var(--mist);
+    margin-bottom: 16px;
+  }
+  .site-metrics {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1px;
+    background: rgba(122,106,82,0.2);
+    margin-top: 40px;
+    border: 1px solid rgba(122,106,82,0.2);
+  }
+  .site-metric {
+    padding: 20px 24px;
+    background: var(--cedar-mid);
+  }
+  .site-metric-v {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--gold-light);
+    display: block;
+  }
+  .site-metric-l {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-top: 4px;
+    display: block;
+  }
+
+  /* Terrain diagram */
+  .terrain-diagram {
+    position: relative;
+  }
+  .terrain-canvas {
+    width: 100%;
+    border: 1px solid rgba(122,106,82,0.25);
+    background: var(--cedar);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  /* ═══════════════ CONCEPT / DNA ═══════════════ */
+  #concept {
+    background: var(--forest);
+    padding: 140px 48px;
+    display: block;
+    min-height: auto;
+  }
+  .concept-intro {
+    max-width: 720px;
+    margin: 0 auto 100px;
+    text-align: center;
+  }
+  .concept-intro h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 5vw, 72px);
+    font-weight: 300;
+    line-height: 1.1;
+    color: var(--white);
+    margin-bottom: 28px;
+  }
+  .concept-intro h2 em { font-style: italic; color: var(--gold-light); }
+  .concept-intro p {
+    font-size: 16px;
+    line-height: 1.9;
+    color: rgba(196,184,154,0.8);
+  }
+  .dna-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: rgba(0,0,0,0.3);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .dna-card {
+    background: rgba(46,59,43,0.5);
+    padding: 48px 36px;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.4s;
+  }
+  .dna-card:hover { background: rgba(46,59,43,0.8); }
+  .dna-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px; height: 0;
+    background: var(--gold);
+    transition: height 0.4s;
+  }
+  .dna-card:hover::before { height: 100%; }
+  .dna-icon {
+    font-size: 32px;
+    margin-bottom: 20px;
+    display: block;
+    opacity: 0.8;
+  }
+  .dna-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 12px;
+    letter-spacing: 0.03em;
+  }
+  .dna-desc {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--stone-light);
+  }
+  .dna-rule {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--gold);
+    margin-top: 16px;
+    font-style: italic;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .dna-rule::before {
+    content: '—';
+    color: var(--stone);
+  }
+
+  /* ═══════════════ STAGES ═══════════════ */
+  #stages {
+    background: var(--cedar);
+    padding: 140px 48px;
+    display: block;
+    min-height: auto;
+  }
+  .stages-header {
+    margin-bottom: 80px;
+  }
+  .stages-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(42px, 5vw, 64px);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.1;
+  }
+  .stages-header h2 em { font-style: italic; color: var(--gold-light); }
+
+  .stages-timeline {
+    position: relative;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .timeline-spine {
+    position: absolute;
+    left: 120px;
+    top: 0; bottom: 0;
+    width: 1px;
+    background: linear-gradient(to bottom, transparent, var(--stone) 10%, var(--stone) 90%, transparent);
+  }
+
+  .stage-block {
+    display: grid;
+    grid-template-columns: 120px 1fr;
+    gap: 0 60px;
+    margin-bottom: 80px;
+    position: relative;
+  }
+  .stage-num-col {
+    text-align: right;
+    padding-top: 8px;
+    position: relative;
+  }
+  .stage-num-col::after {
+    content: '';
+    position: absolute;
+    right: -60px;
+    top: 18px;
+    width: 12px; height: 12px;
+    border-radius: 50%;
+    background: var(--gold);
+    transform: translateX(50%);
+  }
+  .stage-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 0.15em;
+    color: var(--stone);
+    text-transform: uppercase;
+  }
+  .stage-year {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    color: var(--gold);
+    display: block;
+    margin-top: 4px;
+  }
+  .stage-card {
+    border: 1px solid rgba(122,106,82,0.2);
+    background: var(--cedar-mid);
+    padding: 40px 48px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .stage-card:hover { border-color: rgba(184,144,42,0.4); }
+  .stage-card-accent {
+    position: absolute;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(to right, var(--gold), transparent);
+  }
+  .stage-0-accent { background: linear-gradient(to right, var(--slate), transparent); }
+  .stage-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 300;
+    color: var(--white);
+    margin-bottom: 8px;
+  }
+  .stage-card h3 em { font-style: italic; color: var(--gold-light); }
+  .stage-tagline {
+    font-size: 13px;
+    letter-spacing: 0.1em;
+    color: var(--stone-light);
+    margin-bottom: 28px;
+    font-style: italic;
+  }
+  .stage-specs {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .stage-spec {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  .stage-spec-v {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 26px;
+    font-weight: 300;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+  .stage-spec-l {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .stage-items {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-top: 20px;
+  }
+  .stage-tag {
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 5px 12px;
+    border: 1px solid rgba(122,106,82,0.3);
+    color: var(--mist);
+    background: transparent;
+  }
+  .stage-tag.highlight {
+    border-color: rgba(184,144,42,0.5);
+    color: var(--gold-light);
+  }
+  .stage-pl {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid rgba(122,106,82,0.15);
+    display: flex;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .pl-label {
+    font-size: 10px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .pl-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 22px;
+    font-weight: 300;
+  }
+  .pl-positive { color: #7ABB7A; }
+  .pl-negative { color: #BB7A7A; }
+  .pl-neutral { color: var(--stone-light); }
+
+  /* ═══════════════ REFERENCES ═══════════════ */
+  #references {
+    background: var(--cedar-mid);
+    padding: 140px 48px;
+    display: block;
+    min-height: auto;
+  }
+  .refs-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    margin-bottom: 64px;
+  }
+  .refs-header h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.1;
+  }
+  .refs-header h2 em { font-style: italic; color: var(--gold-light); }
+  .refs-count {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 72px;
+    font-weight: 300;
+    color: rgba(184,144,42,0.15);
+    line-height: 1;
+  }
+
+  .refs-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 2px;
+    background: rgba(0,0,0,0.3);
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+  .ref-card {
+    background: var(--cedar);
+    padding: 32px 28px;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.35s ease;
+  }
+  .ref-card:hover { background: rgba(42,41,32,0.9); }
+  .ref-card-bar {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+  .bar-s1a { background: #4A6FA5; }
+  .bar-s2  { background: var(--forest-mid); }
+  .bar-s3  { background: #7B3F00; }
+  .bar-mp  { background: var(--stone); }
+  .ref-flag {
+    font-size: 22px;
+    display: block;
+    margin-bottom: 12px;
+  }
+  .ref-stage-badge {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    padding: 3px 8px;
+    border-radius: 2px;
+    display: inline-block;
+    margin-bottom: 12px;
+    font-weight: 400;
+  }
+  .badge-s1a { background: rgba(74,111,165,0.2); color: #7AABDD; border: 1px solid rgba(74,111,165,0.3); }
+  .badge-s2  { background: rgba(61,79,57,0.4); color: #8FBF8A; border: 1px solid rgba(61,79,57,0.5); }
+  .badge-s3  { background: rgba(123,63,0,0.3); color: #D4956A; border: 1px solid rgba(123,63,0,0.4); }
+  .badge-mp  { background: rgba(122,106,82,0.2); color: var(--mist); border: 1px solid rgba(122,106,82,0.3); }
+  .ref-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 400;
+    color: var(--cream);
+    margin-bottom: 4px;
+    line-height: 1.2;
+  }
+  .ref-location {
+    font-size: 11px;
+    letter-spacing: 0.1em;
+    color: var(--slate);
+    margin-bottom: 16px;
+  }
+  .ref-keys {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    color: var(--stone-light);
+    margin-bottom: 12px;
+  }
+  .ref-influence {
+    font-size: 14px;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+  }
+  .ref-takeaway {
+    margin-top: 16px;
+    padding-top: 14px;
+    border-top: 1px solid rgba(122,106,82,0.15);
+    font-size: 11px;
+    line-height: 1.6;
+    color: var(--stone-light);
+    font-style: italic;
+    display: none;
+  }
+  .ref-card:hover .ref-takeaway { display: block; }
+
+  /* ═══════════════ FINANCIAL ═══════════════ */
+  #financial {
+    background: var(--forest);
+    padding: 140px 48px;
+    display: block;
+    min-height: auto;
+  }
+  .fin-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    max-width: 1200px;
+    margin: 0 auto;
+    align-items: center;
+  }
+  .fin-text h2 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(36px, 4vw, 56px);
+    font-weight: 300;
+    color: var(--white);
+    line-height: 1.15;
+    margin-bottom: 32px;
+  }
+  .fin-text h2 em { font-style: italic; color: var(--gold-light); }
+  .fin-note {
+    font-size: 13px;
+    line-height: 1.8;
+    color: rgba(196,184,154,0.7);
+  }
+  .fin-table {
+    border: 1px solid rgba(122,106,82,0.2);
+    overflow: hidden;
+  }
+  .fin-row {
+    display: grid;
+    grid-template-columns: 1fr auto auto auto;
+    gap: 0;
+    border-bottom: 1px solid rgba(122,106,82,0.1);
+  }
+  .fin-row:last-child { border-bottom: none; }
+  .fin-row-header {
+    background: rgba(0,0,0,0.3);
+    border-bottom: 1px solid rgba(122,106,82,0.2) !important;
+  }
+  .fin-cell {
+    padding: 16px 20px;
+    font-size: 13px;
+    color: var(--mist);
+    border-right: 1px solid rgba(122,106,82,0.1);
+  }
+  .fin-cell:last-child { border-right: none; }
+  .fin-cell.header {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+  .fin-cell.name { font-family: 'Cormorant Garamond', serif; font-size: 15px; color: var(--cream); }
+  .fin-cell.money { font-family: 'Cormorant Garamond', serif; font-size: 16px; text-align: right; }
+  .fin-cell.pos { color: #7ABB7A; }
+  .fin-cell.neg { color: #BB7A7A; }
+  .fin-cell.total-row { background: rgba(184,144,42,0.08); color: var(--gold-light); }
+  .fin-big {
+    padding: 28px 20px;
+    background: rgba(184,144,42,0.06);
+    border-top: 2px solid rgba(184,144,42,0.4);
+  }
+  .fin-big-label {
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--stone-light);
+    margin-bottom: 8px;
+  }
+  .fin-big-value {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 52px;
+    font-weight: 300;
+    color: var(--gold-light);
+    line-height: 1;
+  }
+
+  /* ═══════════════ DESIGN DNA ═══════════════ */
+  #design {
+    background: var(--cedar);
+    padding: 140px 48px;
+    display: block;
+    min-height: auto;
+  }
+  .design-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2px;
+    background: rgba(0,0,0,0.4);
+    max-width: 1200px;
+    margin: 40px auto 0;
+  }
+  .design-panel {
+    padding: 56px 48px;
+  }
+  .design-panel-light { background: var(--cream); }
+  .design-panel-dark { background: var(--cedar-mid); }
+  .design-panel-forest { background: var(--forest); }
+  .design-panel-gold { background: rgba(184,144,42,0.08); border: 1px solid rgba(184,144,42,0.2); }
+  .design-panel h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 400;
+    margin-bottom: 24px;
+  }
+  .design-panel-light h3 { color: var(--cedar); }
+  .design-panel-dark h3,
+  .design-panel-forest h3,
+  .design-panel-gold h3 { color: var(--cream); }
+  .material-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .material-item {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+  }
+  .material-swatch {
+    width: 32px; height: 32px;
+    border-radius: 2px;
+    flex-shrink: 0;
+  }
+  .swatch-cedar { background: #2A2920; }
+  .swatch-stone { background: #7A6A52; }
+  .swatch-cream { background: #F0EAE0; border: 1px solid #ddd; }
+  .swatch-forest { background: #2E3B2B; }
+  .swatch-gold { background: #B8902A; }
+  .swatch-slate { background: #5A5A52; }
+  .material-item .mat-name { font-weight: 400; }
+  .material-item .mat-desc { opacity: 0.6; font-size: 11px; }
+  .rule-list {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+  .rule-item {
+    font-size: 13px;
+    line-height: 1.6;
+    padding-left: 20px;
+    border-left: 2px solid;
+    color: var(--cream);
+  }
+  .rule-allowed { border-color: #7ABB7A; color: rgba(240,234,224,0.9); }
+  .rule-forbidden { border-color: #BB7A7A; color: rgba(240,234,224,0.6); }
+  .rule-label {
+    font-size: 9px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    margin-bottom: 4px;
+    display: block;
+  }
+  .allowed-label { color: #7ABB7A; }
+  .forbidden-label { color: #BB7A7A; }
+  .light-rule { color: var(--cedar); border-color: var(--gold); }
+  .light-rule .rule-label { color: var(--gold); }
+  .light-rule-text { color: var(--cedar-mid); font-size: 13px; margin-bottom: 8px; }
+
+  /* ═══════════════ FOOTER ═══════════════ */
+  footer {
+    background: var(--cedar);
+    padding: 64px 48px;
+    border-top: 1px solid rgba(122,106,82,0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--white);
+    letter-spacing: 0.2em;
+  }
+  .footer-detail {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: var(--slate);
+    text-align: right;
+  }
+  .footer-detail span {
+    display: block;
+    margin-bottom: 4px;
+  }
+  .footer-gold {
+    color: var(--gold);
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+  }
+
+  /* ═══════════════ ANIMATIONS ═══════════════ */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  @keyframes scrollPulse {
+    0%, 100% { opacity: 0.3; transform: scaleY(1); }
+    50% { opacity: 1; transform: scaleY(1.2); }
+  }
+  @keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+  }
+
+  /* Scroll reveals */
+  .reveal {
+    opacity: 0;
+    transform: translateY(32px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Responsive */
+  @media (max-width: 900px) {
+    nav { padding: 20px 24px; }
+    .nav-links { display: none; }
+    #site, #concept, #stages, #references, #financial, #design { padding: 80px 24px; }
+    .site-grid, .fin-grid { grid-template-columns: 1fr; gap: 48px; }
+    .dna-grid { grid-template-columns: 1fr; }
+    .design-grid { grid-template-columns: 1fr; }
+    .timeline-spine { display: none; }
+    .stage-block { grid-template-columns: 1fr; }
+    .stage-num-col { text-align: left; }
+    .stage-num-col::after { display: none; }
+    .hero-stats { flex-wrap: wrap; gap: 24px; }
+    .hero-divider { display: none; }
+    footer { flex-direction: column; gap: 24px; }
+    .footer-detail { text-align: center; }
+    .refs-header { flex-direction: column; align-items: flex-start; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Cursor -->
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">MAYOT</div>
+  <ul class="nav-links">
+    <li><a href="#site">Ділянка</a></li>
+    <li><a href="#concept">Концепція</a></li>
+    <li><a href="#stages">Стадії</a></li>
+    <li><a href="#references">Референси</a></li>
+    <li><a href="#financial">Фінанси</a></li>
+    <li><a href="#design">Дизайн</a></li>
+  </ul>
+</nav>
+
+<!-- ═══ HERO ═══ -->
+<section id="hero">
+  <div class="hero-bg"></div>
+
+  <!-- SVG terrain silhouette -->
+  <svg class="terrain-svg" viewBox="0 0 1440 300" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <defs>
+      <linearGradient id="terrainGrad" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0%" stop-color="#3D4F39" stop-opacity="0.6"/>
+        <stop offset="100%" stop-color="#1A1A17" stop-opacity="0.9"/>
+      </linearGradient>
+    </defs>
+    <!-- Carpathian ridge silhouette -->
+    <path d="M0,300 L0,220 Q80,180 150,160 Q220,140 280,120 Q340,100 400,85
+             Q450,72 480,60 Q520,44 560,35 Q600,26 640,28
+             Q680,30 720,40 Q760,50 800,65 Q840,80 900,95
+             Q960,110 1020,130 Q1080,150 1140,165 Q1200,180 1280,200
+             Q1360,220 1440,235 L1440,300 Z" fill="url(#terrainGrad)"/>
+    <!-- Second ridge layer -->
+    <path d="M0,300 L0,260 Q100,240 200,220 Q300,200 400,185
+             Q480,172 540,162 Q600,152 660,148
+             Q720,144 780,150 Q840,156 920,168
+             Q1000,180 1100,200 Q1200,220 1300,238
+             Q1380,250 1440,258 L1440,300 Z" fill="rgba(30,50,28,0.4)"/>
+  </svg>
+
+  <div class="hero-content">
+    <p class="hero-eyebrow">Яремче · Карпати · Україна · 2026</p>
+    <h1 class="hero-title">MAY<em>OT</em></h1>
+    <p class="hero-subtitle">Resort · Japandi × Carpathian · 211 ключів</p>
+    <div class="hero-stats">
+      <div class="hero-stat">
+        <span class="hero-stat-n">211</span>
+        <span class="hero-stat-l">Ключів</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-n">3</span>
+        <span class="hero-stat-l">Стадії</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-n">$62M</span>
+        <span class="hero-stat-l">Виручка</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-n">48K</span>
+        <span class="hero-stat-l">м² ділянки</span>
+      </div>
+      <div class="hero-divider"></div>
+      <div class="hero-stat">
+        <span class="hero-stat-n">1000</span>
+        <span class="hero-stat-l">м н.р.м.</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="scroll-hint">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+</section>
+
+<!-- ═══ IDENTITY STRIP ═══ -->
+<div class="identity-strip">
+  <div class="marquee-track">
+    <span class="marquee-item">Japandi × Carpathian</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Condo-Hotel</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Water-First</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Half Board 5★</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Zero-Car Concept</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Underground Parking</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Rental Pool</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Onsen Deck</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Adult SPA 18+</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Kids City</span>
+    <span class="marquee-dot">·</span>
+    <!-- repeat for seamless loop -->
+    <span class="marquee-item">Japandi × Carpathian</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Condo-Hotel</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Water-First</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Half Board 5★</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Zero-Car Concept</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Underground Parking</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Rental Pool</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Onsen Deck</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Adult SPA 18+</span>
+    <span class="marquee-dot">·</span>
+    <span class="marquee-item">Kids City</span>
+    <span class="marquee-dot">·</span>
+  </div>
+</div>
+
+<!-- ═══ SITE ═══ -->
+<section id="site">
+  <div class="section-label reveal">01 — Ділянка та рельєф</div>
+  <div class="site-grid">
+    <div class="site-text reveal">
+      <h2>Один схил.<br><em>Три горизонти.</em></h2>
+      <p>Прямокутна ділянка 120 × 400 м на південному схилі Карпат. Перепад висот 80 м від нижньої до верхньої точки. Ухил 20% вздовж усієї довжини — природна каскадна структура для терасної забудови.</p>
+      <p>Геометрія ділянки диктує архітектурну логіку: три горизонтальні платформи на трьох різних відмітках, кожна — окрема стадія з власним характером і панорамою.</p>
+      <div class="site-metrics">
+        <div class="site-metric">
+          <span class="site-metric-v">120 × 400 м</span>
+          <span class="site-metric-l">Геометрія ділянки</span>
+        </div>
+        <div class="site-metric">
+          <span class="site-metric-v">~48 000 м²</span>
+          <span class="site-metric-l">Загальна площа</span>
+        </div>
+        <div class="site-metric">
+          <span class="site-metric-v">20% / 80 м</span>
+          <span class="site-metric-l">Ухил / Перепад висот</span>
+        </div>
+        <div class="site-metric">
+          <span class="site-metric-v">~1 000 м</span>
+          <span class="site-metric-l">Верхня точка н.р.м.</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="terrain-diagram reveal">
+      <div class="terrain-canvas">
+        <svg viewBox="0 0 600 420" xmlns="http://www.w3.org/2000/svg" style="width:100%; display:block; background:#1A1A17;">
+
+          <!-- Grid lines -->
+          <defs>
+            <pattern id="grid" width="60" height="42" patternUnits="userSpaceOnUse">
+              <path d="M 60 0 L 0 0 0 42" fill="none" stroke="rgba(122,106,82,0.1)" stroke-width="0.5"/>
+            </pattern>
+          </defs>
+          <rect width="600" height="420" fill="url(#grid)"/>
+
+          <!-- Compass / North arrow -->
+          <g transform="translate(548,32)">
+            <circle r="18" fill="none" stroke="rgba(122,106,82,0.3)" stroke-width="1"/>
+            <text x="0" y="-6" text-anchor="middle" font-size="8" fill="rgba(184,144,42,0.7)" font-family="Jost">N</text>
+            <line x1="0" y1="-14" x2="0" y2="14" stroke="rgba(122,106,82,0.4)" stroke-width="1"/>
+            <polygon points="0,-14 -3,-4 3,-4" fill="rgba(184,144,42,0.7)"/>
+          </g>
+
+          <!-- LEFT service spine -->
+          <rect x="40" y="30" width="16" height="360" fill="rgba(90,90,82,0.3)" stroke="rgba(90,90,82,0.5)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="48" y="24" text-anchor="middle" font-size="8" fill="rgba(90,90,82,0.7)" font-family="Jost" letter-spacing="1">SERVICE</text>
+
+          <!-- RIGHT guest belt -->
+          <rect x="544" y="30" width="16" height="360" fill="rgba(61,79,57,0.3)" stroke="rgba(61,79,57,0.5)" stroke-width="1" stroke-dasharray="4,3"/>
+          <text x="552" y="24" text-anchor="middle" font-size="8" fill="rgba(61,79,57,0.8)" font-family="Jost" letter-spacing="1">GUEST</text>
+
+          <!-- Contour lines (elevation) -->
+          <g opacity="0.25" stroke="rgba(184,144,42,0.6)" stroke-width="0.8" fill="none">
+            <path d="M56,390 Q200,388 544,384"/>
+            <path d="M56,350 Q200,344 544,338"/>
+            <path d="M56,310 Q200,300 544,290"/>
+            <path d="M56,270 Q200,256 544,242"/>
+            <path d="M56,230 Q200,212 544,195"/>
+            <path d="M56,190 Q200,168 544,148"/>
+            <path d="M56,150 Q200,124 544,100"/>
+            <path d="M56,110 Q200,80 544,52"/>
+          </g>
+
+          <!-- Stage 3 Family Resort — bottom -->
+          <rect x="56" y="300" width="488" height="84" rx="2"
+                fill="rgba(123,63,0,0.25)" stroke="rgba(123,63,0,0.6)" stroke-width="1.5"/>
+          <text x="300" y="330" text-anchor="middle" font-size="11" fill="rgba(212,149,106,0.9)" font-family="Cormorant Garamond" font-style="italic">Stage 3</text>
+          <text x="300" y="344" text-anchor="middle" font-size="9" fill="rgba(212,149,106,0.7)" font-family="Jost" letter-spacing="2">FAMILY RESORT</text>
+          <text x="300" y="360" text-anchor="middle" font-size="9" fill="rgba(212,149,106,0.5)" font-family="Jost">135 ключів · $35.3M</text>
+
+          <!-- Stage 2 Mountain Lodge — middle -->
+          <rect x="56" y="190" width="488" height="100" rx="2"
+                fill="rgba(46,59,43,0.4)" stroke="rgba(61,79,57,0.7)" stroke-width="1.5"/>
+          <text x="300" y="223" text-anchor="middle" font-size="11" fill="rgba(143,191,138,0.9)" font-family="Cormorant Garamond" font-style="italic">Stage 2</text>
+          <text x="300" y="237" text-anchor="middle" font-size="9" fill="rgba(143,191,138,0.7)" font-family="Jost" letter-spacing="2">MOUNTAIN LODGE</text>
+          <text x="300" y="254" text-anchor="middle" font-size="9" fill="rgba(143,191,138,0.5)" font-family="Jost">46 ключів · $11.7M</text>
+
+          <!-- Stage 1A MVP — top -->
+          <rect x="56" y="50" width="488" height="130" rx="2"
+                fill="rgba(74,111,165,0.2)" stroke="rgba(74,111,165,0.6)" stroke-width="1.5"/>
+          <text x="300" y="90" text-anchor="middle" font-size="11" fill="rgba(122,171,221,0.9)" font-family="Cormorant Garamond" font-style="italic">Stage 1A — MVP</text>
+          <text x="300" y="106" text-anchor="middle" font-size="9" fill="rgba(122,171,221,0.7)" font-family="Jost" letter-spacing="2">RIDGE SPA SUITES</text>
+          <text x="300" y="122" text-anchor="middle" font-size="9" fill="rgba(122,171,221,0.5)" font-family="Jost">30 ключів · $7.5M</text>
+          <!-- Onsen icon -->
+          <circle cx="300" cy="147" r="8" fill="none" stroke="rgba(122,171,221,0.4)" stroke-width="1"/>
+          <text x="300" y="151" text-anchor="middle" font-size="10" fill="rgba(122,171,221,0.6)">♨</text>
+
+          <!-- Dimension labels -->
+          <!-- Width 120m -->
+          <line x1="56" y1="406" x2="544" y2="406" stroke="rgba(122,106,82,0.5)" stroke-width="1"/>
+          <line x1="56" y1="400" x2="56" y2="412" stroke="rgba(122,106,82,0.5)" stroke-width="1"/>
+          <line x1="544" y1="400" x2="544" y2="412" stroke="rgba(122,106,82,0.5)" stroke-width="1"/>
+          <text x="300" y="416" text-anchor="middle" font-size="9" fill="rgba(122,106,82,0.8)" font-family="Jost">400 м (глибина)</text>
+
+          <!-- Elevation arrow -->
+          <line x1="24" y1="50" x2="24" y2="390" stroke="rgba(184,144,42,0.5)" stroke-width="1"/>
+          <polygon points="24,40 20,56 28,56" fill="rgba(184,144,42,0.5)"/>
+          <text x="14" y="220" text-anchor="middle" font-size="8" fill="rgba(184,144,42,0.7)" font-family="Jost" transform="rotate(-90, 14, 220)">80 м перепад · 20% ухил</text>
+
+          <!-- Elevation markers -->
+          <text x="570" y="54" font-size="8" fill="rgba(184,144,42,0.5)" font-family="Jost">~1000м</text>
+          <text x="570" y="194" font-size="8" fill="rgba(184,144,42,0.4)" font-family="Jost">~960м</text>
+          <text x="570" y="304" font-size="8" fill="rgba(184,144,42,0.35)" font-family="Jost">~920м</text>
+          <text x="570" y="390" font-size="8" fill="rgba(184,144,42,0.3)" font-family="Jost">~900м</text>
+
+          <!-- Flow arrows -->
+          <!-- Service (left) down arrow -->
+          <text x="48" y="200" text-anchor="middle" font-size="14" fill="rgba(90,90,82,0.5)">↓</text>
+          <!-- Guest (right) up arrow -->
+          <text x="552" y="200" text-anchor="middle" font-size="14" fill="rgba(61,79,57,0.6)">↑</text>
+
+          <!-- Legend -->
+          <rect x="70" y="305" width="8" height="8" fill="rgba(90,90,82,0.5)"/>
+          <text x="84" y="313" font-size="8" fill="rgba(90,90,82,0.7)" font-family="Jost">Сервісна вісь (LEFT)</text>
+          <rect x="70" y="320" width="8" height="8" fill="rgba(61,79,57,0.5)"/>
+          <text x="84" y="328" font-size="8" fill="rgba(61,79,57,0.8)" font-family="Jost">Гостьовий пояс (RIGHT)</text>
+        </svg>
+      </div>
+      <p style="font-size:11px; color:var(--slate); margin-top:12px; letter-spacing:0.1em; text-align:center;">
+        СХЕМА MASTERPLAN — plan view (не є архітектурним проектом)
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ CONCEPT ═══ -->
+<section id="concept">
+  <div class="concept-intro reveal">
+    <div class="section-label" style="justify-content:center; margin-bottom:32px;">02 — ДНК Концепції</div>
+    <h2>Japandi <em>×</em> Carpathian<br>Мовчазна розкіш</h2>
+    <p>MAYOT — це не готель у горах. Це простір, де японський спокій зустрічається з карпатською душею. Кожне рішення — від матеріалу до потоку гостей — підпорядковане одній ідеї: гість має відчути «я в безпеці, все продумано, я можу розслабитися».</p>
+  </div>
+  <div class="dna-grid">
+    <div class="dna-card reveal">
+      <span class="dna-icon">🌿</span>
+      <div class="dna-title">Nature-First</div>
+      <div class="dna-desc">Вода видима з ключових публічних зон. Ліс — головна зовнішня сцена. Архітектура зростає зі схилу без насипного фасаду.</div>
+      <div class="dna-rule">Forestis model</div>
+    </div>
+    <div class="dna-card reveal">
+      <span class="dna-icon">♨️</span>
+      <div class="dna-title">Water-First</div>
+      <div class="dna-desc">Онсен-дека, термальне коло, каскадні чаші. Вода — головний досвід, не опція. Приватний онсен при кожному Suite Stage 1A.</div>
+      <div class="dna-rule">Aman Niseko DNA</div>
+    </div>
+    <div class="dna-card reveal">
+      <span class="dna-icon">🏯</span>
+      <div class="dna-title">Japandi Material</div>
+      <div class="dna-desc">Кедр, сланець, матовий бетон, льон. Теплий колір 2700–3000K. Тільки непряме та приховане освітлення. Нічого зайвого.</div>
+      <div class="dna-rule">Kengo Kuma palette</div>
+    </div>
+    <div class="dna-card reveal">
+      <span class="dna-icon">🚗</span>
+      <div class="dna-title">Zero-Car Concept</div>
+      <div class="dna-desc">Підземний паркінг → перехідний коридор → ліфт на рівень лобі. Жодного автомобіля у полі зору гостя — з жодного номера.</div>
+      <div class="dna-rule">Kempinski 420-space model</div>
+    </div>
+    <div class="dna-card reveal">
+      <span class="dna-icon">👨‍👩‍👧</span>
+      <div class="dna-title">Adult ≠ Family</div>
+      <div class="dna-desc">Дитяча активність НІКОЛИ не «протікає» в дорослі зони. Adult SPA 18+ — окремий корпус/крило з контрольованим доступом.</div>
+      <div class="dna-rule">AKI Plose dual-zone</div>
+    </div>
+    <div class="dna-card reveal">
+      <span class="dna-icon">🎋</span>
+      <div class="dna-title">Local × Global</div>
+      <div class="dna-desc">Карпатська ялиця зовні + кедр всередині. Місцева їжа 50км радіус. Гуцульське ремесло як частина досвіду — без кічу.</div>
+      <div class="dna-rule">COMO 80km food radius</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ STAGES ═══ -->
+<section id="stages">
+  <div class="stages-header reveal">
+    <div class="section-label">03 — Фазування</div>
+    <h2>Три стадії.<br><em>Одна ділянка.</em><br>Один бренд.</h2>
+  </div>
+
+  <div class="stages-timeline">
+    <div class="timeline-spine"></div>
+
+    <!-- Stage 0 -->
+    <div class="stage-block reveal">
+      <div class="stage-num-col">
+        <div class="stage-num">Stage 0</div>
+        <span class="stage-year">Enabling</span>
+      </div>
+      <div class="stage-card">
+        <div class="stage-card-accent stage-0-accent"></div>
+        <h3>Підготовчі роботи</h3>
+        <div class="stage-tagline">Одноразова інвестиція в інфраструктуру всієї ділянки</div>
+        <div class="stage-specs">
+          <div class="stage-spec">
+            <span class="stage-spec-v">$1.035M</span>
+            <span class="stage-spec-l">Бюджет</span>
+          </div>
+          <div class="stage-spec">
+            <span class="stage-spec-v">8</span>
+            <span class="stage-spec-l">Робіт</span>
+          </div>
+        </div>
+        <div class="stage-items">
+          <span class="stage-tag">Геодезія / Геотехніка</span>
+          <span class="stage-tag">Терасування 80м перепад</span>
+          <span class="stage-tag">Зливова каналізація</span>
+          <span class="stage-tag">Комунальна вісь 400м</span>
+          <span class="stage-tag">Службова дорога (LEFT)</span>
+          <span class="stage-tag">Периметр + охорона</span>
+          <span class="stage-tag">Котельня / ТН / Генератор</span>
+          <span class="stage-tag">Міні-трактор John Deere</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 1A -->
+    <div class="stage-block reveal">
+      <div class="stage-num-col">
+        <div class="stage-num">Stage 1A</div>
+        <span class="stage-year">MVP · Year 1–2</span>
+      </div>
+      <div class="stage-card">
+        <div class="stage-card-accent"></div>
+        <h3>Ridge <em>Spa Suites</em></h3>
+        <div class="stage-tagline">30 ексклюзивних люксів на гребені · Aman Niseko модель</div>
+        <div class="stage-specs">
+          <div class="stage-spec">
+            <span class="stage-spec-v">30</span>
+            <span class="stage-spec-l">Ключів</span>
+          </div>
+          <div class="stage-spec">
+            <span class="stage-spec-v">42–52 м²</span>
+            <span class="stage-spec-l">Net площа</span>
+          </div>
+          <div class="stage-spec">
+            <span class="stage-spec-v">$7.5M</span>
+            <span class="stage-spec-l">CAPEX</span>
+          </div>
+          <div class="stage-spec">
+            <span class="stage-spec-v">$8.2M</span>
+            <span class="stage-spec-l">Виручка</span>
+          </div>
+        </div>
+        <div class="stage-items">
+          <span class="stage-tag highlight">Онсен-дека (60м² чаша)</span>
+          <span class="stage-tag highlight">СПА міні (2 кабінети)</span>
+          <span class="stage-tag">Паркінг 40 місць (підземний)</span>
+          <span class="stage-tag">Павільйон 250м²</span>
+          <span class="stage-tag">HB ресторан</span>
+          <span class="stage-tag">24 Spa Suite S42</span>
+          <span class="stage-tag">6 Mountain Suite M52</span>
+        </div>
+        <div class="stage-pl">
+          <span class="pl-label">P&L</span>
+          <span class="pl-value pl-positive">+$118K</span>
+          <span style="font-size:11px; color:var(--slate);">після маркетингу 7%</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 2 -->
+    <div class="stage-block reveal">
+      <div class="stage-num-col">
+        <div class="stage-num">Stage 2</div>
+        <span class="stage-year">Year 3–4</span>
+      </div>
+      <div class="stage-card">
+        <div class="stage-card-accent" style="background:linear-gradient(to right,#3D4F39,transparent)"></div>
+        <h3>Mountain <em>Lodge</em></h3>
+        <div class="stage-tagline">46 ключів · Повний СПА-комплекс · ADLER Lodge модель</div>
+        <div class="stage-specs">
+          <div class="stage-spec">
+            <span class="stage-spec-v">46</span>
+            <span class="stage-spec-l">Ключів</span>
+          </div>
+          <div class="stage-spec">
+            <span class="stage-spec-v">40–80 м²</span>
+            <span class="stage-spec-l">Net площа</span>
+          </div>
+          <div class="stage-spec">
+            <span class="stage-spec-v">$11.7M</span>
+            <span class="stage-spec-l">CAPEX</span>
+          </div>
+          <div class="stage-spec">
+            <span class="stage-spec-v">$12.4M</span>
+            <span class="stage-spec-l">Виручка</span>
+          </div>
+        </div>
+        <div class="stage-items">
+          <span class="stage-tag highlight">SPA & Wellness 500м²</span>
+          <span class="stage-tag highlight">Водний каскад 280м²</span>
+          <span class="stage-tag">34 Standard Suite Std40</span>
+          <span class="stage-tag">6 Deluxe Suite Dlx50</span>
+          <span class="stage-tag">6 Mountain Chalet 80м²</span>
+          <span class="stage-tag">Термальне коло 8 елементів</span>
+          <span class="stage-tag">Kids Zone 272м²</span>
+        </div>
+        <div class="stage-pl">
+          <span class="pl-label">P&L</span>
+          <span class="pl-value pl-negative">−$142K</span>
+          <span style="font-size:11px; color:var(--slate);">закривається pre-launch Stage 3</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stage 3 -->
+    <div class="stage-block reveal">
+      <div class="stage-num-col">
+        <div class="stage-num">Stage 3</div>
+        <span class="stage-year">Year 5–7</span>
+      </div>
+      <div class="stage-card">
+        <div class="stage-card-accent" style="background:linear-gradient(to right,#7B3F00,transparent)"></div>
+        <h3>Family <em>Resort</em></h3>
+        <div class="stage-tagline">135 ключів · Water World · Kids City · AKI Plose модель</div>
+        <div class="stage-specs">
+          <div class="stage-spec">
+            <span class="stage-spec-v">135</span>
+            <span class="stage-spec-l">Ключів</span>
+          </div>
+          <div class="stage-spec">
+            <span class="stage-spec-v">50–80 м²</span>
+            <span class="stage-spec-l">Net площа</span>
+          </div>
+          <div class="stage-spec">
+            <span class="stage-spec-v">$35.3M</span>
+            <span class="stage-spec-l">CAPEX</span>
+          </div>
+          <div class="stage-spec">
+            <span class="stage-spec-v">$41.3M</span>
+            <span class="stage-spec-l">Виручка</span>
+          </div>
+        </div>
+        <div class="stage-items">
+          <span class="stage-tag highlight">Water World Indoor 1000м²</span>
+          <span class="stage-tag highlight">Water World Outdoor 500м²</span>
+          <span class="stage-tag highlight">Adult SPA 18+ 500м²</span>
+          <span class="stage-tag highlight">Kids City 1280м²</span>
+          <span class="stage-tag">Main Pavilion 700м²</span>
+          <span class="stage-tag">105 Family 50м²</span>
+          <span class="stage-tag">18 XL 65м²</span>
+          <span class="stage-tag">12 Chalet 80м²</span>
+          <span class="stage-tag">Паркінг 154+31 місць</span>
+        </div>
+        <div class="stage-pl">
+          <span class="pl-label">P&L</span>
+          <span class="pl-value pl-positive">+$3.121M</span>
+          <span style="font-size:11px; color:var(--slate);">після маркетингу 7%</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ REFERENCES ═══ -->
+<section id="references">
+  <div class="refs-header reveal">
+    <div>
+      <div class="section-label">04 — Референси</div>
+      <h2>13 об'єктів.<br><em>5 країн.</em><br>Один вектор.</h2>
+    </div>
+    <div class="refs-count">13</div>
+  </div>
+
+  <div class="refs-grid">
+    <!-- S1A -->
+    <div class="ref-card reveal">
+      <div class="ref-card-bar bar-s1a"></div>
+      <span class="ref-flag">🇯🇵</span>
+      <span class="ref-stage-badge badge-s1a">Stage 1A ★★★★★</span>
+      <div class="ref-name">Aman Niseko</div>
+      <div class="ref-location">Хоккайдо, Японія · ~100+ res. · 2030</div>
+      <div class="ref-keys">Japandi мінімалізм · Приватний онсен · Рідкість</div>
+      <div class="ref-influence">★★★★★</div>
+      <div class="ref-takeaway">→ «Єдина гора — один курорт» концепція · Онсен на терасі кожного Suite · Aman Spa модель термального кола</div>
+    </div>
+
+    <div class="ref-card reveal">
+      <div class="ref-card-bar bar-s1a"></div>
+      <span class="ref-flag">🇮🇹</span>
+      <span class="ref-stage-badge badge-s1a">Stage 1A ★★★★★</span>
+      <div class="ref-name">Forestis Dolomites</div>
+      <div class="ref-location">Брессаноне, Пд. Тіроль · 62 ключів · 2019</div>
+      <div class="ref-keys">Piero Lissoni · Ліс · Adults-only · Zero carbon</div>
+      <div class="ref-influence">★★★★★</div>
+      <div class="ref-takeaway">→ Архітектура зростає зі схилу без фундаменту · Heubad → карпатський трав'яний ритуал · Zero waste F&B</div>
+    </div>
+
+    <!-- S2 -->
+    <div class="ref-card reveal">
+      <div class="ref-card-bar bar-s2"></div>
+      <span class="ref-flag">🇯🇵</span>
+      <span class="ref-stage-badge badge-s2">Stage 2 ★★★★★</span>
+      <div class="ref-name">FuFu Kawaguchiko</div>
+      <div class="ref-location">Гора Фудзі, Японія · 16 ключів · 2018</div>
+      <div class="ref-keys">Ryokan · Open-air онсен · Kaiseki · Мінімалізм</div>
+      <div class="ref-influence">★★★★★</div>
+      <div class="ref-takeaway">→ Приватний open-air онсен 1.8×2.4м при Suite · Темне дерево + сланець фасад</div>
+    </div>
+
+    <div class="ref-card reveal">
+      <div class="ref-card-bar bar-s2"></div>
+      <span class="ref-flag">🇮🇹</span>
+      <span class="ref-stage-badge badge-s2">Stage 2+MP ★★★★★</span>
+      <div class="ref-name">ADLER Lodge ALPE</div>
+      <div class="ref-location">Альпе ді Сіузі, Пд. Тіроль · 48 ключів</div>
+      <div class="ref-keys">Терасна будівля · Infinity pool · Condo-hotel</div>
+      <div class="ref-influence">★★★★★</div>
+      <div class="ref-takeaway">→ Rental pool модель · Терасна забудова по горизонталях схилу · Мелез шиндель дах</div>
+    </div>
+
+    <div class="ref-card reveal">
+      <div class="ref-card-bar bar-s2"></div>
+      <span class="ref-flag">🇮🇹</span>
+      <span class="ref-stage-badge badge-s2">Stage 2+3 ★★★★★</span>
+      <div class="ref-name">AKI Family Resort Plose</div>
+      <div class="ref-location">Бріксен, Пд. Тіроль · 60 ключів · 2023</div>
+      <div class="ref-keys">ADLER Group · Aqua World 6 зон · Kids City 500м²</div>
+      <div class="ref-influence">★★★★★</div>
+      <div class="ref-takeaway">→ ГОЛОВНА МОДЕЛЬ Stage 3 · Aqua World 1500м² · Kids City 4 вікові групи · 82% occupancy 2023</div>
+    </div>
+
+    <div class="ref-card reveal">
+      <div class="ref-card-bar bar-s2"></div>
+      <span class="ref-flag">🇩🇪</span>
+      <span class="ref-stage-badge badge-s2">Stage 2 ★★★★</span>
+      <div class="ref-name">Kempinski Berchtesgaden</div>
+      <div class="ref-location">Баварські Альпи · 138 ключів · 2009</div>
+      <div class="ref-keys">Grand Alpine chalet · SPA 2600м² · Паркінг 420</div>
+      <div class="ref-influence">★★★★</div>
+      <div class="ref-takeaway">→ Ступінчаста терасна будівля · Балкони 12–18м² · Підземний паркінг 420 місць, нульовий фасад</div>
+    </div>
+
+    <div class="ref-card reveal">
+      <div class="ref-card-bar bar-s2"></div>
+      <span class="ref-flag">🇦🇪</span>
+      <span class="ref-stage-badge badge-s2">Stage 2 ★★★</span>
+      <div class="ref-name">Jumeirah Marsa Al Arab</div>
+      <div class="ref-location">Дубай, ОАЕ · 303 ключів · 2023</div>
+      <div class="ref-keys">Butler service · Suite-only · Arrival sequence</div>
+      <div class="ref-influence">★★★</div>
+      <div class="ref-takeaway">→ 1 Guest Relations на 8 номерів · Suite-only min 40м² · Arrival без авто на фасаді</div>
+    </div>
+
+    <!-- S3 -->
+    <div class="ref-card reveal">
+      <div class="ref-card-bar bar-s3"></div>
+      <span class="ref-flag">🇯🇵</span>
+      <span class="ref-stage-badge badge-s3">Stage 3 ★★★★</span>
+      <div class="ref-name">Park Hyatt Niseko</div>
+      <div class="ref-location">Хоккайдо, Японія · 100 ключів · 2019</div>
+      <div class="ref-keys">Kengo Kuma · Темна деревина · Ski-in/ski-out</div>
+      <div class="ref-influence">★★★★</div>
+      <div class="ref-takeaway">→ Темна ялиця зовні + кедр всередині · Онсен цілорічний · 100 keys повний amenities set</div>
+    </div>
+
+    <!-- MP -->
+    <div class="ref-card reveal">
+      <div class="ref-card-bar bar-mp"></div>
+      <span class="ref-flag">🇨🇭</span>
+      <span class="ref-stage-badge badge-mp">Masterplan ★★★★</span>
+      <div class="ref-name">Bürgenstock Resort</div>
+      <div class="ref-location">Озеро Люцерн, Швейцарія · 383 ключів · 1873/2017</div>
+      <div class="ref-keys">$550M реновація · Підземна галерея 1.6км · 4 готелі</div>
+      <div class="ref-influence">★★★★</div>
+      <div class="ref-takeaway">→ Phased development єдиної ділянки · Критий зимовий перехід Stage 2↔3 · Multi-segment продукт</div>
+    </div>
+
+    <div class="ref-card reveal">
+      <div class="ref-card-bar bar-mp"></div>
+      <span class="ref-flag">🇯🇵</span>
+      <span class="ref-stage-badge badge-mp">Masterplan ★★★</span>
+      <div class="ref-name">Ritz-Carlton Nikko</div>
+      <div class="ref-location">Нікко, Японія · 94 ключів · 2020</div>
+      <div class="ref-keys">Kengo Kuma · Горизонтальна будівля · Масивна покрівля</div>
+      <div class="ref-influence">★★★</div>
+      <div class="ref-takeaway">→ Горизонтальна терасна будівля · Масивна карпатська покрівля · Окремий онсен-павільйон</div>
+    </div>
+
+    <div class="ref-card reveal">
+      <div class="ref-card-bar bar-mp"></div>
+      <span class="ref-flag">🇯🇵</span>
+      <span class="ref-stage-badge badge-mp">Masterplan ★★★</span>
+      <div class="ref-name">Capella Kyoto</div>
+      <div class="ref-location">Кіото, Японія · 90 ключів · 2026</div>
+      <div class="ref-keys">Machiya/Minka · Tsuboniwa · Shinrin-Yoku spa</div>
+      <div class="ref-influence">★★★</div>
+      <div class="ref-takeaway">→ Карпатський ліс як лікувальний простір · Гуцульське ремесло як досвід · Chef Residency</div>
+    </div>
+
+    <div class="ref-card reveal">
+      <div class="ref-card-bar bar-mp"></div>
+      <span class="ref-flag">🇮🇹</span>
+      <span class="ref-stage-badge badge-mp">Masterplan ★★★</span>
+      <div class="ref-name">COMO Alpina Dolomites</div>
+      <div class="ref-location">Альпе ді Сіузі · 56 ключів · 2005/2022</div>
+      <div class="ref-keys">COMO Shambhala · Ayurvedic+Alpine · 80km food</div>
+      <div class="ref-influence">★★★</div>
+      <div class="ref-takeaway">→ Фірмовий Карпатський ритуал · Локальний камінь + скло · 50км radius F&B</div>
+    </div>
+
+    <div class="ref-card reveal">
+      <div class="ref-card-bar bar-mp"></div>
+      <span class="ref-flag">🇨🇭</span>
+      <span class="ref-stage-badge badge-mp">Masterplan ★★</span>
+      <div class="ref-name">AlpenGold Davos</div>
+      <div class="ref-location">Давос, Швейцарія · 98 ключів · 1905/2015</div>
+      <div class="ref-keys">Belle Époque · WEF · ADR $380–620/ніч</div>
+      <div class="ref-influence">★★</div>
+      <div class="ref-takeaway">→ ADR $380–620 Davos = ціль MAYOT у повному режимі · SPA 500м² мінімальний модуль</div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FINANCIAL ═══ -->
+<section id="financial">
+  <div class="fin-grid">
+    <div class="fin-text reveal">
+      <div class="section-label">05 — Фінансова модель</div>
+      <h2>$62M виручки.<br><em>$56M CAPEX.</em><br>Три хвилі.</h2>
+      <p class="fin-note" style="margin-bottom:24px;">Продаж апартаментів фінансує будівництво наступної стадії. Кожна хвиля продажів стартує з $4,500/м² і закривається до $6,000/м² перед відкриттям. Rental pool — обов'язковий.</p>
+      <div style="margin-top:32px;">
+        <div class="fin-big-label">Загальна виручка проєкту</div>
+        <div class="fin-big-value">$61.9M</div>
+      </div>
+      <div style="margin-top:24px; display:grid; grid-template-columns:1fr 1fr; gap:1px; background:rgba(122,106,82,0.2);">
+        <div style="background:var(--forest);padding:16px 20px;">
+          <span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--slate);display:block;margin-bottom:6px;">Загальний CAPEX</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--cream);">$56.0M</span>
+        </div>
+        <div style="background:var(--forest);padding:16px 20px;">
+          <span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--slate);display:block;margin-bottom:6px;">Чистий прибуток</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:#7ABB7A;">+$1.07M</span>
+        </div>
+        <div style="background:var(--forest);padding:16px 20px;">
+          <span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--slate);display:block;margin-bottom:6px;">Паркінг проданих</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--cream);">183 × $20K</span>
+        </div>
+        <div style="background:var(--forest);padding:16px 20px;">
+          <span style="font-size:10px;letter-spacing:0.2em;text-transform:uppercase;color:var(--slate);display:block;margin-bottom:6px;">Транспорт</span>
+          <span style="font-family:'Cormorant Garamond',serif;font-size:28px;font-weight:300;color:var(--cream);">$496K</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="reveal">
+      <div class="fin-table">
+        <div class="fin-row fin-row-header">
+          <div class="fin-cell header">Стадія</div>
+          <div class="fin-cell header" style="text-align:right;">Виручка</div>
+          <div class="fin-cell header" style="text-align:right;">CAPEX</div>
+          <div class="fin-cell header" style="text-align:right;">P&L</div>
+        </div>
+        <div class="fin-row">
+          <div class="fin-cell name">Stage 0<br><span style="font-size:11px;color:var(--slate);">Enabling works</span></div>
+          <div class="fin-cell money">—</div>
+          <div class="fin-cell money">$1.035M</div>
+          <div class="fin-cell money neg">−$1.035M</div>
+        </div>
+        <div class="fin-row">
+          <div class="fin-cell name">Stage 1A<br><span style="font-size:11px;color:var(--slate);">30 ключів · MVP</span></div>
+          <div class="fin-cell money">$8.157M</div>
+          <div class="fin-cell money">$7.468M</div>
+          <div class="fin-cell money pos">+$118K</div>
+        </div>
+        <div class="fin-row">
+          <div class="fin-cell name">Stage 2<br><span style="font-size:11px;color:var(--slate);">46 ключів · Lodge</span></div>
+          <div class="fin-cell money">$12.410M</div>
+          <div class="fin-cell money">$11.683M</div>
+          <div class="fin-cell money neg">−$142K</div>
+        </div>
+        <div class="fin-row">
+          <div class="fin-cell name">Stage 3<br><span style="font-size:11px;color:var(--slate);">135 ключів · Family</span></div>
+          <div class="fin-cell money">$41.335M</div>
+          <div class="fin-cell money">$35.321M</div>
+          <div class="fin-cell money pos">+$3.121M</div>
+        </div>
+        <div class="fin-row">
+          <div class="fin-cell name">Транспорт<br><span style="font-size:11px;color:var(--slate);">Fleet · 4 одиниці</span></div>
+          <div class="fin-cell money">—</div>
+          <div class="fin-cell money">$496K</div>
+          <div class="fin-cell money neg">−$496K</div>
+        </div>
+        <div class="fin-row" style="background:rgba(184,144,42,0.06); border-top:1px solid rgba(184,144,42,0.3);">
+          <div class="fin-cell name total-row" style="font-weight:400;color:var(--gold-light);">РАЗОМ<br><span style="font-size:11px;color:var(--stone-light);">211 ключів</span></div>
+          <div class="fin-cell money total-row">$61.902M</div>
+          <div class="fin-cell money total-row">$56.003M</div>
+          <div class="fin-cell money pos total-row">+$1.071M</div>
+        </div>
+      </div>
+      <p style="font-size:11px;color:var(--slate);margin-top:12px;letter-spacing:0.08em;line-height:1.6;">
+        Маркетинг 7% включено. Паркінг 265 місць: 183 продані × $20K = $3.66M включено у виручку стадій. Транспортний парк: 2× Rolls-Royce Phantom VIII + 2× VW Transporter + Mercedes Sprinter.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ DESIGN DNA ═══ -->
+<section id="design">
+  <div style="max-width:1200px; margin:0 auto;">
+    <div class="section-label reveal">06 — Design Brief</div>
+    <h2 class="reveal" style="font-family:'Cormorant Garamond',serif;font-size:clamp(36px,4vw,56px);font-weight:300;color:var(--white);line-height:1.1;margin-bottom:64px;">
+      Правила матеріалів.<br><em>Без компромісів.</em>
+    </h2>
+  </div>
+
+  <div class="design-grid">
+    <!-- Palette -->
+    <div class="design-panel design-panel-light reveal">
+      <h3>Колірна система</h3>
+      <div class="material-list">
+        <div class="material-item">
+          <div class="material-swatch swatch-cedar"></div>
+          <div>
+            <div class="mat-name" style="color:var(--cedar);">Cedar Deep #1A1A17</div>
+            <div class="mat-desc" style="color:var(--slate);">Основний фон · стіни</div>
+          </div>
+        </div>
+        <div class="material-item">
+          <div class="material-swatch swatch-forest"></div>
+          <div>
+            <div class="mat-name" style="color:var(--cedar);">Forest #2E3B2B</div>
+            <div class="mat-desc" style="color:var(--slate);">Акцентні зони · Stage 2</div>
+          </div>
+        </div>
+        <div class="material-item">
+          <div class="material-swatch swatch-stone"></div>
+          <div>
+            <div class="mat-name" style="color:var(--cedar);">Stone #7A6A52</div>
+            <div class="mat-desc" style="color:var(--slate);">Текстури · деталі</div>
+          </div>
+        </div>
+        <div class="material-item">
+          <div class="material-swatch swatch-cream"></div>
+          <div>
+            <div class="mat-name" style="color:var(--cedar);">Washi Cream #F0EAE0</div>
+            <div class="mat-desc" style="color:var(--slate);">Текст · світлі поверхні</div>
+          </div>
+        </div>
+        <div class="material-item">
+          <div class="material-swatch swatch-gold"></div>
+          <div>
+            <div class="mat-name" style="color:var(--cedar);">Bamboo Gold #B8902A</div>
+            <div class="mat-desc" style="color:var(--slate);">Акцент · виділення</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Materials -->
+    <div class="design-panel design-panel-dark reveal">
+      <h3>Матеріали — ALLOWED</h3>
+      <div class="rule-list">
+        <div class="rule-item rule-allowed">
+          <span class="rule-label allowed-label">Structural</span>
+          Кедр, ялиця карпатська (зовні темна, всередині тепла)
+        </div>
+        <div class="rule-item rule-allowed">
+          <span class="rule-label allowed-label">Stone</span>
+          Пісковик, річкова галька, натуральний сланець
+        </div>
+        <div class="rule-item rule-allowed">
+          <span class="rule-label allowed-label">Metal</span>
+          Матовий чорний, бронза — тільки без блиску
+        </div>
+        <div class="rule-item rule-allowed">
+          <span class="rule-label allowed-label">Textile</span>
+          Льон, вовна, бавовна — природна палітра
+        </div>
+        <div class="rule-item rule-allowed">
+          <span class="rule-label allowed-label">Concrete</span>
+          Матовий архітектурний бетон, гладкий або фактурний
+        </div>
+      </div>
+    </div>
+
+    <!-- No-Go -->
+    <div class="design-panel design-panel-forest reveal">
+      <h3>NO-GO LIST — ABSOLUTE</h3>
+      <div class="rule-list">
+        <div class="rule-item rule-forbidden">
+          <span class="rule-label forbidden-label">Never</span>
+          Глянець, хром, «золото» декоративне
+        </div>
+        <div class="rule-item rule-forbidden">
+          <span class="rule-label forbidden-label">Never</span>
+          Псевдомармур, пластик «під дерево»
+        </div>
+        <div class="rule-item rule-forbidden">
+          <span class="rule-label forbidden-label">Never</span>
+          Кислотні кольори у публічних просторах
+        </div>
+        <div class="rule-item rule-forbidden">
+          <span class="rule-label forbidden-label">Never</span>
+          Колибні декорації та сувенірний фольклор
+        </div>
+        <div class="rule-item rule-forbidden">
+          <span class="rule-label forbidden-label">Never</span>
+          Відкриті сервісні потоки в гостьових зонах
+        </div>
+        <div class="rule-item rule-forbidden">
+          <span class="rule-label forbidden-label">Never</span>
+          Дитячі мультиперсонажі у будь-якій зоні
+        </div>
+      </div>
+    </div>
+
+    <!-- Lighting -->
+    <div class="design-panel design-panel-light reveal">
+      <h3 style="color:var(--cedar);">Правила освітлення</h3>
+      <div class="rule-list" style="margin-top:8px;">
+        <div class="rule-item light-rule">
+          <span class="rule-label">Temperature</span>
+          <span class="light-rule-text">Тільки тепле світло 2700–3000K</span>
+        </div>
+        <div class="rule-item light-rule">
+          <span class="rule-label">Type</span>
+          <span class="light-rule-text">Тільки непрямі та приховані сценарії</span>
+        </div>
+        <div class="rule-item light-rule">
+          <span class="rule-label">Forbidden</span>
+          <span class="light-rule-text">Жодного «офісного» світла. Ніяких стель-решіток.</span>
+        </div>
+        <div class="rule-item light-rule">
+          <span class="rule-label">Night</span>
+          <span class="light-rule-text">Мінімальне нічне · без засвічування неба</span>
+        </div>
+      </div>
+      <div style="margin-top:24px; padding-top:20px; border-top:1px solid rgba(122,106,82,0.2);">
+        <div style="font-size:11px;letter-spacing:0.2em;text-transform:uppercase;color:var(--stone);margin-bottom:12px;">Просторовий принцип</div>
+        <p style="font-size:13px;color:var(--slate);line-height:1.7;">Простір має «огортати», не тиснути. Перевага округлих форм. Вода видима з ключових public зон. Логічні маршрути без лабіринтів.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══ FOOTER ═══ -->
+<footer>
+  <div>
+    <div class="footer-logo">M A Y O T</div>
+    <div style="margin-top:8px; font-size:11px; letter-spacing:0.15em; color:var(--slate);">Яремче · Карпати · Україна</div>
+    <div class="footer-gold" style="margin-top:6px;">Japandi × Carpathian</div>
+  </div>
+  <div class="footer-detail">
+    <span>Конфіденційно</span>
+    <span>Для партнерів та архітекторів</span>
+    <span style="color:var(--gold); font-size:10px; letter-spacing:0.2em;">Березень 2026 · v2</span>
+  </div>
+</footer>
+
+<script>
+  // Custom cursor
+  const cursor = document.getElementById('cursor');
+  const ring = document.getElementById('cursorRing');
+  let mx = 0, my = 0, rx = 0, ry = 0;
+  document.addEventListener('mousemove', e => {
+    mx = e.clientX; my = e.clientY;
+    cursor.style.left = mx - 4 + 'px';
+    cursor.style.top = my - 4 + 'px';
+  });
+  function animateRing() {
+    rx += (mx - rx - 18) * 0.12;
+    ry += (my - ry - 18) * 0.12;
+    ring.style.left = rx + 'px';
+    ring.style.top = ry + 'px';
+    requestAnimationFrame(animateRing);
+  }
+  animateRing();
+
+  // Cursor hover effect
+  document.querySelectorAll('a, .ref-card, .dna-card, .stage-card').forEach(el => {
+    el.addEventListener('mouseenter', () => {
+      cursor.style.transform = 'scale(2)';
+      ring.style.transform = 'scale(1.5)';
+      ring.style.borderColor = 'rgba(184,144,42,0.7)';
+    });
+    el.addEventListener('mouseleave', () => {
+      cursor.style.transform = 'scale(1)';
+      ring.style.transform = 'scale(1)';
+      ring.style.borderColor = 'rgba(184,144,42,0.4)';
+    });
+  });
+
+  // Scroll reveal
+  const reveals = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry, i) => {
+      if (entry.isIntersecting) {
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, (entry.target.dataset.delay || 0) * 1);
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -60px 0px' });
+
+  reveals.forEach((el, i) => {
+    el.style.transitionDelay = (i % 4) * 80 + 'ms';
+    observer.observe(el);
+  });
+
+  // Nav highlight on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-links a');
+  window.addEventListener('scroll', () => {
+    let current = '';
+    sections.forEach(s => {
+      if (window.scrollY >= s.offsetTop - 200) current = s.id;
+    });
+    navLinks.forEach(a => {
+      a.style.color = a.getAttribute('href') === '#' + current
+        ? 'rgba(184,144,42,0.9)' : '';
+    });
+  });
+</script>
+</body>
+</html>
